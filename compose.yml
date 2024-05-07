@@ -1,0 +1,33 @@
+name: mylocalbd
+
+services:
+  api:
+    build:
+      context: ./todo
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: PostgresContainer
+    environment:
+      - POSTGRES_USER=asad
+      - POSTGRES_PASSWORD=asad1234
+      - POSTGRES_DB=mydatabase
+    ports:
+      - "5433:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
+    driver: local
+    name: mydatavolume
+
+networks:
+  mynetwork:
